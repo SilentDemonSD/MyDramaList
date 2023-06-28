@@ -80,20 +80,14 @@ class Search(BaseSearch):
         _people = []
 
         for result in results:
-            r = {}
-
             title = result.find("h6", class_="text-primary title").find("a")
 
-            r["slug"] = title["href"].replace("/", "", 1)
+            r = {"slug": title["href"].replace("/", "", 1)}
             # get the thumbnail
             _thumb = str(result.find("img", class_="img-responsive")["data-src"]).split(
                 "/1280/"
             )
-            if len(_thumb) > 1:
-                r["thumb"] = _thumb[1]
-            else:
-                r["thumb"] = _thumb[0]
-
+            r["thumb"] = _thumb[1] if len(_thumb) > 1 else _thumb[0]
             if result.has_attr("id"):
                 r["mdl_id"] = result["id"]
 

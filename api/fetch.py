@@ -69,7 +69,7 @@ class FetchDrama(BaseFetch):
                     _title.replace(":", "").replace(" ", "_").lower()
                 ] = [
                     i.strip()
-                    for i in i.text.replace(_title + " ", "").strip().split(", ")
+                    for i in i.text.replace(f"{_title} ", "").strip().split(", ")
                 ]
 
         except Exception:
@@ -339,9 +339,6 @@ class FetchReviews(BaseFetch):
 
             except Exception as e:
                 print(e)
-                # if failed to parse, do nothing
-                pass
-
             # append to list
             self.info["reviews"].append(__temp_review)
 
