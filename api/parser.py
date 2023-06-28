@@ -121,12 +121,7 @@ class BaseFetch(Parser):
     def _get_poster(self, container: Union[Tag, NavigableString]) -> Union[str, Any]:
         poster = container.find("img")
 
-        for i in self._img_attrs:
-            if poster.has_attr(i):
-                return poster[i]
-
-        # blank if none
-        return ""
+        return next((poster[i] for i in self._img_attrs if poster.has_attr(i)), "")
 
     # get the drama details <= statistics section is added in here
     def _get_details(self, classname: str) -> None:
@@ -143,9 +138,7 @@ class BaseFetch(Parser):
                 # append each to sub object
                 self.info["details"][
                     _title.replace(":", "").replace(" ", "_").lower()
-                ] = i.text.replace(
-                    _title + " ", ""
-                ).strip()  # remove leading and trailing white spaces
+                ] = i.text.replace(f"{_title} ", "").strip()
 
         except Exception:
             # do nothing, if there was a problem
